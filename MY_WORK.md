@@ -32,11 +32,11 @@
 
 | Field | Your Answer |
 |-------|-------------|
-| **Full Name** | [Write your full name here] |
-| **Student ID** | [Write your student ID here] |
-| **University Email** | [yourid]@std.psau.edu.sa |
-| **GitHub Username** | [your-github-username] |
-| **Repository Link** | [Paste your repository link here] |
+| **Full Name** | Lina Khaled Albarqi |
+| **Student ID** | 446540002 |
+| **University Email** | 446540002@std.psau.edu.sa |
+| **GitHub Username** | 2l8ena |
+| **Repository Link** | https://github.com/2l8ena/OS-Assignment3-Lina-Khaled |
  
 ---
 
