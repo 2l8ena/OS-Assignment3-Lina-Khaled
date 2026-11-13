@@ -118,7 +118,7 @@ public static long getTotalServiceTime() {
         statsLock.unlock();
     }
 }
-}
+
 
 // ⚠️ THE READY QUEUE: shared by ALL the CPU threads ⚠️
 // In Assignment 1 only the main thread used the queue. Now several CPUs poll and re-enqueue processes
@@ -141,7 +141,8 @@ public void add(Process process) {
         map.put(thread, process);
     } finally {
         queueLock.unlock();
-    }
+    }  
+    readySemaphore.release();
         // TODO Feature 3: signal that one more process is available in the queue
 
         System.out.println(Colors.BLUE + "  ➕ " + Colors.BOLD + Colors.CYAN + process.getName() + Colors.RESET +
@@ -177,7 +178,7 @@ public Process processOf(Thread thread) {
     } finally {
         queueLock.unlock();
     }
-    readySemaphore.release();
+  
 }
 
 
@@ -198,7 +199,7 @@ public Process processOf(Thread thread) {
 }
 
 // Class representing a process (same as Assignment 1) - executes ONE time quantum per thread start
-class Process implements Runnable {
+static class Process implements Runnable {
     private final String name;
     private final int burstTime;           // total CPU time needed (nominal ms)
     private final int timeQuantum;         // maximum time per CPU access (nominal ms)
@@ -287,7 +288,7 @@ class Process implements Runnable {
 
 // A CPU of the simulated machine: takes a process from the shared ready queue, runs ONE quantum, and repeats.
 // (In Assignment 1 this loop was executed by the main thread: now several CPUs execute it at the same time.)
-class CpuWorker extends Thread {
+static class CpuWorker extends Thread {
     private final int cpuId;
     private final ReadyQueue readyQueue;
 
@@ -462,4 +463,5 @@ Thread thread = readyQueue.poll();
                 (good ? Colors.BRIGHT_GREEN + "✔" : Colors.RED + "✘ MISMATCH") + Colors.RESET);
         return good;
     }
+}
 }
