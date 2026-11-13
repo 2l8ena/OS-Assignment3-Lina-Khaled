@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
-// TODO (Feature 3):               import java.util.concurrent.Semaphore;
+import java.util.concurrent.Semaphore;
 
 // ANSI Color Codes for enhanced terminal output (same as Assignment 1)
 class Colors {
@@ -127,7 +127,7 @@ class ReadyQueue {
     private final LinkedList<Thread> list = new LinkedList<>();   // FIFO queue of threads
     private final Map<Thread, Process> map = new HashMap<>();     // thread -> process (same idea as Assignment 1)
     private final ReentrantLock queueLock = new ReentrantLock();
-
+    private final Semaphore readySemaphore = new Semaphore(0);
     // TODO Feature 1: declare the lock protecting `list` and `map` here
 
     // TODO Feature 3: declare the counting semaphore that counts the processes waiting in the ready queue here
@@ -167,7 +167,9 @@ public void add(Process process) {
         queueLock.unlock();
     }
 }
-
+public void waitForProcess() throws InterruptedException {
+    readySemaphore.acquire();
+}
 public Process processOf(Thread thread) {
     queueLock.lock();
     try {
@@ -299,18 +301,13 @@ class CpuWorker extends Thread {
         while (SharedStats.getCompletedProcessCount() < SharedStats.totalProcesses) {
 
             // TODO Feature 3: replace this polling loop by a blocking wait on the counting semaphore
-            Thread thread = readyQueue.poll();
-            if (thread == null) {
-                // ⚠️ BUSY WAITING: the CPU keeps checking an empty queue instead of sleeping until
-                // a process is available. It wastes CPU time and needs the "completed == total" test above to stop.
-                SharedStats.busyWaitPolls.incrementAndGet();      // (counted for the verification block)
-                try {
-                    Thread.sleep(20);
-                } catch (InterruptedException e) {
-                    return;
-                }
-                continue;
-            }
+            try {
+    readyQueue.waitForProcess();
+           } catch (InterruptedException e) {
+            return;
+}
+
+Thread thread = readyQueue.poll();
 
             Process process = readyQueue.processOf(thread);
             System.out.println(Colors.MAGENTA + "  ┌─ [CPU-" + cpuId + "] picks " + Colors.BRIGHT_CYAN +
