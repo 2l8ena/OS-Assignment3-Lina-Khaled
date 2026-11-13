@@ -177,6 +177,7 @@ public Process processOf(Thread thread) {
     } finally {
         queueLock.unlock();
     }
+    readySemaphore.release();
 }
 
 
