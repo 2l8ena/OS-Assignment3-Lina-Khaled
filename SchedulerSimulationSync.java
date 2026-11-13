@@ -94,7 +94,7 @@ public static void addServiceTime(int ms) {
     }
 }
     // Readers must also be protected (a read in the middle of an update is not safe either)
-   ublic static int getCompletedProcessCount() {
+   public static int getCompletedProcessCount() {
     statsLock.lock();
     try {
         return completedProcessCount;
