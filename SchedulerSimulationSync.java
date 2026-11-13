@@ -132,7 +132,7 @@ class ReadyQueue {
 
     // TODO Feature 3: declare the counting semaphore that counts the processes waiting in the ready queue here
 
-    // Add a process to the ready queue (new process, or a process that did not finish its quantum)public void add(Process process) {
+    // Add a process to the ready queue (new process, or a process that did not finish its quantum)
 public void add(Process process) {
     queueLock.lock();
     try {
@@ -142,7 +142,6 @@ public void add(Process process) {
     } finally {
         queueLock.unlock();
     }
-
         // TODO Feature 3: signal that one more process is available in the queue
 
         System.out.println(Colors.BLUE + "  ➕ " + Colors.BOLD + Colors.CYAN + process.getName() + Colors.RESET +
