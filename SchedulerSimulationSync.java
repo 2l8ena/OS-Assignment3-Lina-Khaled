@@ -331,8 +331,9 @@ Thread thread = readyQueue.poll();
         }
     }
 }
+}
 
-public class SchedulerSimulationSync {
+ public class SchedulerSimulationSync {
     public static void main(String[] args) {
         // ⚠️ IMPORTANT: Put your student ID here to seed the random number generator
         // This makes your output unique to you - DO NOT forget to change this!
