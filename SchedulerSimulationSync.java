@@ -331,7 +331,7 @@ Thread thread = readyQueue.poll();
         }
     }
 }
-}
+
 
  public class SchedulerSimulationSync {
     public static void main(String[] args) {
