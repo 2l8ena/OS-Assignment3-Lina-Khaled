@@ -118,7 +118,7 @@ public static long getTotalServiceTime() {
         statsLock.unlock();
     }
 }
-
+}
 
 // ⚠️ THE READY QUEUE: shared by ALL the CPU threads ⚠️
 // In Assignment 1 only the main thread used the queue. Now several CPUs poll and re-enqueue processes
@@ -197,9 +197,9 @@ public Process processOf(Thread thread) {
 }
 
 }
-
+}
 // Class representing a process (same as Assignment 1) - executes ONE time quantum per thread start
-static class Process implements Runnable {
+class Process implements Runnable {
     private final String name;
     private final int burstTime;           // total CPU time needed (nominal ms)
     private final int timeQuantum;         // maximum time per CPU access (nominal ms)
