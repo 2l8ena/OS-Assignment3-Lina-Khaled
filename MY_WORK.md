@@ -132,69 +132,72 @@
 
 ## Your Development Log
 
-### Entry 1 - [Date and Time]
-**What I did**:
+### Entry 1 - [Nov 11]
+**What I did**:Set Student ID 
 
-**Details**:
+**Details**:Ensuring the correct line and variable declaration were modified without altering other simulation parameters.
 
 **Challenges**:
-
+-
 **Solution**:
-
+-
 **Time spent**:
-
+15
 ---
 
-### Entry 2 - [Date and Time]
-**What I did**:
+### Entry 2 - [Nov 12]
+**What I did**:Ready Queue Lock Implementation
 
-**Details**:
-
+**Details** 
+Protected all concurrent accesses and modifications to the shared ready queue using a ReentrantLock with try/finally
+ Ensured thread-safe insertion and extraction of processes across simulated CPU 
 **Challenges**:
-
+Guaranteeing that every critical section wrapping the queue operations safely releases the lock even if exceptions occur.
 **Solution**:
 
 **Time spent**:
-
+45 minutes
 ---
 
-### Entry 3 - [Date and Time]
+### Entry 3 - [Nov 13]
 **What I did**:
-
+Statistics Variable Protection & Fine-Grained Locking
 **Details**:
-
+Implemented locking mechanisms for shared variable and counter updates/reads to prevent race conditions
 **Challenges**:
-
+Identifying all locations where shared statistics counters were read or modified concurrently by multiple CPU threads.
 **Solution**:
-
+Added dedicated lock protection around counter increments and read accesses.
 **Time spent**:
-
+40 minutes
 ---
 
-### Entry 4 - [Date and Time]
+### Entry 4 - [14 Nov]
 **What I did**:
-
+Counting Semaphore Implementation for Process Waiting
 **Details**:
-
+Replaced the CPU busy-waiting loops with a blocking Semaphore that counts active processes in the ready queue 
+  Configured clean shutdown routines and added descriptive comments to the methods.
 **Challenges**:
-
+Managing thread blocking and awakening states efficiently without causing deadlocks during
 **Solution**:
-
+Integrated proper signal handling and graceful termination checks alongside semaphore.acquire() and release() calls.
 **Time spent**:
-
+1hr
 ---
 
-### Entry 5 - [Date and Time]
+### Entry 5 - [16 Nov]
 **What I did**:
-
+Verification Testing & Bug Fixing
 **Details**:
-
+  Executed the complete simulation runner multiple times (at least 5 consecutive test runs) to validate thread safety, lock correctness, and synchronization stability.
+  Checked the built-in verification block to ensure that a green checkmark (\checkmark) appeared successfully across all lines in every single test 
 **Challenges**:
-
+Intermittent synchronization timing glitches during high-speed thread context switches in early test runs.
 **Solution**:
-
+Refined the try/finally boundary scopes around critical sections and verified that all shared state modifications were fully atomic under the implemented l
 **Time spent**:
-
+35
 ---
 
 ### Entry 6 - [Optional - Date and Time]
@@ -214,14 +217,14 @@
 
 > 💡 **TIP:** Fill this in **last**, after all entries are written.
 
-**Total time spent on assignment**: [X hours]
+**Total time spent on assignment**: [3 hr]
 
-**Most challenging part**:
+**Most challenging part**:The most challenging part of this assignment was ensuring proper thread safety and synchronization across multiple simulated CPU threads without introducing deadlocks or race conditions. Specifically, designing the fine-grained locking mechanism for the statistics counters while keeping it separate from the ready queue lock required careful analysis of critical sections. Additionally, replacing the CPU busy-waiting loops with a counting semaphore demanded precise management of permit acquisitions and releases during thread shutdowns. Handling these concurrent state transitions correctly under high-speed context switching was non-trivial and required thorough iterative testing.
 
 **Most interesting learning**:
-
+The most interesting learning from this task was experiencing firsthand how operating systems manage process scheduling and synchronization at a low level in Java. Implementing ReentrantLock with try/finally blocks clearly demonstrated the importance of robust resource management to prevent thread starvation and unreleased locks. Furthermore, observing how a counting semaphore eliminates CPU waste by blocking threads instead of busy-waiting provided a deep appreciation for efficient concurrency primitives. Seeing the built-in verification block consistently show green checkmarks validated the theoretical synchronization concepts learned in lectures
 **What I would do differently next time**:
-
+Next time, I would adopt a more structured incremental testing approach right from the initial commit phase. While committing feature-by-feature was helpful, writing unit tests or verification checks earlier would have caught minor timing anomalies faster. I would also document the development log entries concurrently while writing the code rather than summarizing them at the end. This would make the time tracking and challenge descriptions even more precise and reflective of the immediate debugging process.
 ---
 
 # Part B: Reflection (0.5 mark)
@@ -240,7 +243,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+Working on this assignment really opened my eyes to how tricky race conditions can be when multiple threads try to update shared variables at the same time. At first, seeing the starter code fail with weird thread collisions was pretty stressful, but it totally made sense once we started wrapping critical sections using ReentrantLock and try/finally blocks. I learned that locking the ready queue is super important to maintain mutual exclusion and prevent the whole simulation from breaking. Using a counting semaphore instead of a busy-waiting loop was also a huge eye-opener because it showed me how to make CPU threads sleep and wake up efficiently instead of wasting cycles. Overall, seeing those green checkmarks finally pop up after fixing the synchronization bugs felt amazing and really tied the lectures together.
 
 ## Question 2: What was the most challenging part of this assignment?
 
@@ -248,7 +251,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+Honestly, the hardest part for me was figuring out where to place the locks without causing deadlocks or slowing down the simulation too much. Deciding whether to share the ready queue lock or create a separate fine-grained lock for the statistics counters took a lot of trial and error while debugging in Java. I also spent a good chunk of time trying to get the counting semaphore to work right during the thread shutdown phase because threads kept hanging when the queue emptied out. Tracking down those intermittent timing bugs during my test runs required rewriting parts of my try/finally blocks a couple of times. But once I got the hang of how the locks and permits interact, everything started running smoothly and passed all the verification checks
 
 ## Question 3: How did you overcome the challenges you faced?
 
@@ -256,7 +259,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+To overcome these synchronization hurdles, I started by closely re-reading the assignment instructions and lecture slides on locks and semaphores to understand where things went wrong. Whenever a thread deadlock or a weird timing bug popped up, I added temporary System.out.println statements to trace the execution flow and watch how processes entered and left the ready queue. I also tested my code incrementally after every small change instead of writing everything at once, which made debugging way easier. Rereading the README.md carefully helped me figure out the correct initial value for the semaphore and how to structure the try/finally blocks. Finally, running the simulation repeatedly and watching the verification block show those green checkmarks let me know my solution was finally solid
 
 ## Question 4: Where can synchronization concepts be applied in real-world applications?
 
@@ -264,7 +267,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+Synchronization concepts like locks and semaphores are actually used everywhere in real-world software development and large-scale systems. For instance, in online banking and money transfer apps, mutual exclusion is critical to prevent race conditions when multiple users try to withdraw funds from the same account simultaneously. Another great example is online ticket or seat booking systems (like for movies or flights), where shared data must be locked momentarily so two customers don't accidentally purchase the exact same seat at the same time. Database management systems also rely heavily on transaction locks and semaphores to maintain data consistency and handle concurrent queries safely. Building this OS simulation helped me realize that the same principles we used here to protect a ready queue are what keep real multi-threaded applications from crashing
 
 ### Optional: What would you like to learn more about?
 
