@@ -285,10 +285,10 @@ class Process implements Runnable {
         return completionTime == 0 ? 0 : Math.max(0, getTurnaroundTime() - burstTime);
     }
 
-
+}
 // A CPU of the simulated machine: takes a process from the shared ready queue, runs ONE quantum, and repeats.
 // (In Assignment 1 this loop was executed by the main thread: now several CPUs execute it at the same time.)
-static class CpuWorker extends Thread {
+class CpuWorker extends Thread {
     private final int cpuId;
     private final ReadyQueue readyQueue;
 
@@ -464,4 +464,4 @@ Thread thread = readyQueue.poll();
         return good;
     }
 }
-}
+
